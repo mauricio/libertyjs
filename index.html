@@ -1,38 +1,252 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+	<title>Getting to know React</title>
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/black.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
 			var link = document.createElement( 'link' );
 			link.rel = 'stylesheet';
 			link.type = 'text/css';
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<section>
+				<h1>Getting to know React</h1>
+				<p>
+					<small>
+							<a href="http://mauricio.github.io/">Maurício Linhares</a> /
+							<a href="http://twitter.com/mauriciojr">@mauriciojr</a> /
+							<span style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">Technical Lead at DigitalOcean</span>
+						</small>
+				</p>
+			</section>
+
+			<section>
+				<h1>Why?</h1>
+			</section>
+
+			<section>
+				<h1>It's complicated</h1>
+				<p>Front end applications are growing and including more and more JavaScript</p>
+			</section>
+
+			<section>
+				<h1>jQuery doesn't cut it anymore</h1>
+				<p>
+					Making all your UI changes using jQuery or direct DOM manipulation is painful, hard to test and compose.
+				</p>
+			</section>
+
+			<section>
+				<h1>Still, why React and not others?</h1>
+			</section>
+
+			<section>
+				<h1>Less opinions</h1>
+				<p>React is an UI frameworks, everything else comes from other libraries and frameworks that you decide to use.
+				</p>
+			</section>
+
+			<section>
+				<h1>Fast</h1>
+				<p>Only components that had a state change will be re-rendered, everything else stays the same.
+				</p>
+			</section>
+
+			<section>
+				<h1>(Mostly) plain JavaScript</h1>
+				<p>
+					There aren't special objects or flows you need to follow, everything is a JS object and you can build them any way you'd
+					like.
+				</p>
+			</section>
+
+			<section>
+				<h1>Still, YMMV</h1>
+				<p>
+					There's no such thing as the perfect framework, give the others a try and figure out what works best for you and your needs.
+				</p>
+			</section>
+
+			<section>
+				<h1>What do you need to get started?</h1>
+				<p>
+					Latest nodejs install (currently 6.7.0)
+				</p>
+			</section>
+
+			<section>
+				<h1>After installing node, in a command line:</h1>
+				<pre>
+					<code data-trim class="shell">
+$ npm install -g create-react-app
+$ create-react-app libertyjs-todo
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h1>Do I <strong>have</strong> to use Nodejs?</h1>
+				<p>
+					Yes, but only for development, you can produce a standalone build and integrate it to your app or favorite framework.
+				</p>
+			</section>
+
+			<section>
+				<h1>Let's walk over the files we have</h1>
+				<p>
+					<ul>
+						<li>App.js</li>
+						<li>index.js</li>
+						<li>index.html</li>
+					</ul>
+				</p>
+			</section>
+
+			<section>
+				<h1>Components are the heart of your React app</h1>
+				<p>
+					They're the main point of interaction between the user and the actions your app implements. They're a mix of controllers
+					and views if you're used to MVC.
+				</p>
+			</section>
+
+			<section>
+				<h1>What kind of sorcery is this code?</h1>
+				<p>
+					To make your life easier, most React development is done using ES6 syntax and a bunch of other niceties (the JSX syntax that
+					allows you to enter HTML directly into JavaScript code).
+				</p>
+			</section>
+
+			<section>
+				<h1>What if I don't like it?</h1>
+				<p>
+					You can definitely write your apps using only browser compatible JavaScript but the pain of doing so might not be worth the
+					trouble.
+				</p>
+			</section>
+
+			<section>
+				<h1>Our first component!</h1>
+				<p>TodoItem.js</p>
+			</section>
+
+			<section>
+				<h1>Then we integrate it in App.js</h1>
+			</section>
+
+			<section>
+				<h1>Now let's get some state in place</h1>
+				<p>
+					<ul>
+						<li>props</li>
+						<li>getInitialState</li>
+						<li>state</li>
+					</ul>
+				</p>
+			</section>
+
+			<section>
+				<h1>Props!</h1>
+				<p>
+					Immutable properties of your component, when they change, a new component is rendered 
+					instead of reusing the existing one</p>
+			</section>
+
+			<section>
+				<h1>propTypes</h1>
+				<p>
+					Basic type and presence validation for your props, customizable 
+					to perform other types of validation.
+				</p>
+			</section>
+
+			<section>
+				<h1>getInitialState</h1>
+				<p>
+					Setup method to fill in your component with the basic state 
+					it needs to be rendered for the first time. Must return an 
+					object.
+				</p>
+			</section>
+
+			<section>
+				<h1>state</h1>
+				<p>
+					Actual state that your component holds, gets changed through the 
+					setState method and makes a component be re-rendered.
+				</p>
+			</section>
+
+			<section>
+				<h1>Creating the form component</h1>
+				<p>
+					Now that we can show tasks, it's time to be able to add them!
+				</p>
+			</section>
+
+			<section>
+				<h1>Event handlers</h1>
+				<p>
+					All React HTML components allow you to add event handlers to them, 
+					just like you would in plain HTML and JavaScript, the only difference
+					is that they're included right at the component markup and handlers
+					are camel cased so <em>onChange</em> instead of <em>onchange</em>.
+				</p>
+			</section>
+
+			<section>
+				<h1>Function name on event handler</h1>
+				<pre>
+					<code data-trim class="jsx">
+<input
+value={this.state.text}
+onChange={this.handleTextChange}/>
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h1>No <em>()</em> on event handlers!</h1>
+				<p>
+					You don't want to call the function, you want to 
+					provide a callback as a property so the component can call it.
+				</p>
+			</section>
+
+			<section>
+				<h1>But wait, where is this state going?</h1>
+				<p>
+					We have to bubble the task insert event up so we need a callback 
+					prop at the form to notify someone else we need to insert a new task.
+				</p>
+			</section>			
+
 		</div>
+	</div>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
 
-		<script>
+	<script>
 			// More info https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
 				history: true,
@@ -46,5 +260,6 @@
 				]
 			});
 		</script>
-	</body>
+</body>
+
 </html>
