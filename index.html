@@ -568,9 +568,195 @@ export default {
 				</p>
 			</section>			
 
+			<section>
+				<h1>Hook it up to your component - App.js</h1>
+				<pre>
+					<code data-trim class="javascript">
+import getters from "./getters.js";
 
+const App = React.createClass({
+  mixins: [reactor.ReactMixin],
+
+  getDataBindings() {
+    return {
+      todos: getters.todos
+    }
+  }
+}
+					</code>
+				</pre>
+			</section>	
+
+			<section>
+				<h1>Call the actions! - App.js</h1>
+				<pre>
+					<code data-trim class="javascript">
+import Actions from "./actions.js";
+
+updateList(name, tasks) {
+	Actions.updateTodoList(name, tasks);
+}
+
+addNewList(name) {
+	Actions.addTodoList(name);
+}
+					</code>
+				</pre>
+			</section>	
+
+			<section>
+				<h1>Inside render</h1>
+				<pre>
+					<code data-trim class="javascript">
+this.state.todos
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h1>Props all the way now!</h1>
+				<p>
+					Since the state is now provided by nuclear
+					we can just use props everywhere and once the 
+					store gets updated all components are updated as well.
+				</p>
+			</section>
+
+			<section>
+				<h1>What about some HTTP?</h1>
+				<p>
+					A front end app is not complete until we call
+					some HTTP service on the backend so let's hook it up!
+				</p>
+			</section>
+
+			<section>
+				<h1>Install request</h1>
+				<pre>
+					<code data-trim class="shell">
+$ npm install --save request
+					</code>
+				</pre>
+			</section>			
+
+			<section>
+				<h1>Include this at your package.json and restart</h1>
+				<pre>
+					<code data-trim class="json">
+"proxy": "http://libertyjstasks.herokuapp.com",
+					</code>
+				</pre>
+			</section>	
+
+			<section>
+				<h1>Setup the library</h1>
+				<pre>
+					<code data-trim class="javascript">
+import request from 'request';
+
+const baseRequest = request.defaults({
+  headers: {'Accept': 'application/json'},
+  json: true
+});
+
+const baseUrl = "http://localhost:3000/task_lists";
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h1>Let's have a list action</h1>
+				<pre>
+					<code data-trim class="javascript">
+listTodos() {
+  baseRequest.get({ url: baseUrl }, (error, response, body) => {
+    if (!error && response.statusCode === 200) {
+      reactor.dispatch(ActionTypes.LIST_TODO_LISTS, 
+	    Immutable.fromJS(body));
+    } else {
+      console.log(error);
+      console.log(response);
+    }
+  });
+}
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h1>Here's the data format</h1>
+				<pre>
+					<code data-trim class="javascript">
+[
+   {
+      "title":"Groceries",
+      "tasks":[
+         {
+            "title":"Coconut Milk",
+            "completed":false
+         },
+         {
+            "title":"Turmeric",
+            "completed":false
+         }
+      ]
+   }
+]
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h1>Register it at the store</h1>
+				<pre>
+					<code data-trim class="javascript">
+function todoListsReceived(state, event) {
+    return event.reduce((map, taskList) => {
+        return map.set(
+            taskList.get("title"), 
+            taskList.get("tasks").map((task) => task.get("title")) );
+    }, Immutable.Map());
+}
+
+// at the store
+this.on(ActionTypes.LIST_TODO_LISTS, todoListsReceived);
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h1>Update the two other calls to call the service</h1>
+				<p>
+					They're basically doing the same stuff, just need to 
+					check for errors and then decide what to do.
+				</p>
+			</section>
+
+			<section>
+				<h1>And that's it!</h1>
+				<p>
+					Since this was only an actions/store thing there
+					is no reason to change the components, they stay as they are.
+				</p>
+			</section>
+
+			<section>
+				<h1>Do we still have time?</h1>
+				<p>
+					Let's play around including marking stuff as complete!
+				</p>
+			</section>
+
+			<section>
+				<h1>Questions?</h1>
+			</section>
+
+			<section>
+				<h1>Thanks!</h1>
+			</section>
 
 		</div>
+
 	</div>
 
 	<script src="lib/js/head.min.js"></script>
