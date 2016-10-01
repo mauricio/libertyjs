@@ -39,6 +39,23 @@
 			</section>
 
 			<section>
+				<h1>This is a <em>no question left behind</em> workshop</h1>
+				<p>
+					If you get stuck at any point or are having trouble
+					with anything that is presented, ASK. Don't wait until
+					the end, stop me at any point and ask.	
+				</p>
+			</section>
+
+			<section>
+				<h1>React is great</h1>
+				<p>
+					I mean, really, even someone that's not in love with 
+					JavaScript like me enjoys it.
+				</p>
+			</section>
+
+			<section>
 				<h1>Why?</h1>
 			</section>
 
@@ -238,7 +255,320 @@ onChange={this.handleTextChange}/>
 					We have to bubble the task insert event up so we need a callback 
 					prop at the form to notify someone else we need to insert a new task.
 				</p>
+			</section>
+
+			<section>
+				<h1>Creating a TodoView</h1>
+				<p>
+					We want to be able to show many todo lists at the same time,
+					so lets create a component to do just that. But first let's 
+					look at ImmutableJS.
+				</p>
+			</section>
+
+			<section>
+				<h1>What is it?</h1>
+				<p>
+					A JS library by Facebook (and used by React) that provides immutable
+					collections (including List, Map and Set).
+				</p>
+			</section>
+
+			<section>
+				<h1>Why should you care?</h1>
+				<p>
+					Most of the work in a React app, as you have noticed, revolves 
+					around handling state changes. Using an immutable collection library
+					makes it easier to figure out if stuff has changed and what needs to be 
+					updated.
+				</p>
+			</section>
+
+			<section>
+				<h1>Function name on event handler</h1>
+				<pre>
+					<code data-trim class="shell">
+$ npm install immutable --save
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h1>Now let's build our new component!</h1>
+				<p>
+					There really isn't much of a difference here.
+				</p>
+			</section>
+
+			<section>
+				<h1>Your turn!</h1>
+				<p>
+					Now that we have a way to have many task lists, add a component that 
+					allows us to add new tasks lists (just a text field to enter a name).
+				</p>
+			</section>
+
+			<section>
+				<h1>15 minutes</h1>
+				<p>
+					Ready. Set. Go!
+				</p>
+			</section>
+
+			<section>
+				<h1>Review time!</h1>
+			</section>
+
+			<section>
+				<h1>What has been the main pain point here?</h1>
+			</section>
+
+			<section>
+				<h1>State!</h1>
+				<p>
+					State management is hard, for all frameworks.
+				</p>
+			</section>
+
+			<section>
+				<h1>Did you notice a pattern?</h1>
+				<p>
+					State is pushed all the way up, to a component that doesn't really 
+					to much but handles all state changes.
+				</p>
+			</section>
+
+			<section>
+				<h1>Application state lives out of components</h1>
+				<p>
+					It doesn't make much sense to couple them together since
+					the views are basically just rendering data.
+				</p>
+			</section>
+
+			<section>
+				<h1>The flux model</h1>
+				<p>
+					<img src="images/flux-simple-f8-diagram-with-client-action-1300w.png"/>
+				</p>
+			</section>
+
+			<section>
+				<h1>Actions</h1>
+				<p>
+					Cause events to be fired to the dispatcher, interested parties
+					register at the dispatcher to wait for events and perform operations
+					in response to them.
+				</p>
+			</section>
+
+			<section>
+				<h1>Dispatcher</h1>
+				<p>
+					Collects all events that have been fired and delivers them to interested
+					parties, the app's event bus. There's only one dispatcher per app 
+					most of the time.
+				</p>
+			</section>
+
+			<section>
+				<h1>Stores</h1>
+				<p>
+					State! State everywhere! State finally get's it's own place without any
+					view or react related code (mostly), stores will be listening on the 
+					dispacher for events that will cause them to change, actions do not
+					write directly to stores or talk to them.
+				</p>
+			</section>
+
+			<section>
+				<h1>Views/Controllers</h1>
+				<p>
+					This is what we have been doing already, views call actions and access
+					stores to show the data, they don't talk to the dispatcher.
+				</p>
+			</section>
+
+			<section>
+				<h1>Check the arrows!</h1>
+				<p>
+					<img src="images/flux-simple-f8-diagram-with-client-action-1300w.png"/>
+				</p>
+			</section>
+
+			<section>
+				<h1>Flux is a model</h1>
+				<p>
+					You're not required to build your React app using Flux, if your needs 
+					are simple, just rolling out your own might suffice.
+				</p>
+			</section>
+
+			<section>
+				<h1>There is no True Flux</h1>
+				<p>
+					There are many implementations of Flux and Flux-like frameworks for React,
+					pick whatever works for you (Redux and Nuclearjs are two of the big ones).
+				</p>
+			</section>
+
+			<section>
+				<h1>Let's introduce Flux to our app</h1>
+				<p>
+					It's not as hard as you're thinking.
+				</p>
+			</section>
+
+			<section>
+				<h1>Install nuclear-js</h1>
+				<pre>
+					<code data-trim class="shell">
+$ npm install --save nuclear-js
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h1>It all starts with the reactor</h1>
+				<pre>
+					<code data-trim class="javascript">
+import { Reactor } from 'nuclear-js';
+
+const reactor = new Reactor({
+  debug: true
+});
+
+export default reactor;						
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h1>First, define actions</h1>
+				<p>
+					<ul>
+						<li>Add a new todo list</li>
+						<li>Add a new task in a todo list</li>
+					</ul>
+				</p>
+			</section>
+
+			<section>
+				<h1>Let's setup the action names - actionTypes.js</h1>
+				<pre>
+					<code data-trim class="javascript">
+import keyMirror from 'fbjs/lib/keyMirror';
+
+export default keyMirror({
+  ADD_TODO: null,
+  ADD_TODO_LIST: null
+});
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h1>And the actions</h1>
+				<pre>
+					<code data-trim class="javascript">
+import reactor from "./reactor.js";
+import Immutable from "immutable";
+import ActionTypes from "./actionTypes.js";
+import Keys from "./Keys.js";
+
+export default {
+    addTodoList(name) {
+        var list = {
+            Keys.Properties.TodoList.TITLE: name            
+        };
+
+        reactor.dispatch(ActionTypes.ADD_TODO_LIST, 
+			Immutable.fromJS(list));        
+    }
+}
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h1>What happens in actions?</h1>
+				<p>
+					<ul>
+						<li>Prepare and send events to dispacher</li>
+						<li>Perform network requests</li>
+						<li>Anything that could change state</li>
+					</ul>
+				</p>
+			</section>
+
+			<section>
+				<h1>And now the store</h1>
+				<pre>
+					<code data-trim class="javascript">
+function addTodoList(state, event) {
+    return state.set(
+        event.get(Keys.Properties.TodoList.TITLE),
+        Immutable.List()
+    );
+}
+
+export default Store({
+    getInitialState() {
+        return Immutable.Map();
+    },
+
+    initialize() {
+        this.on(ADD_TODO_LIST, addTodoList);
+    }
+});
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h1>What happens in stores?</h1>
+				<p>
+					State change alone. Stores shouldn't really do anything
+					other than updating it's own state.					
+				</p>
+			</section>
+
+			<section>
+				<h1>Connect reactor and stores - App.js</h1>
+				<pre>
+					<code data-trim class="javascript">
+import reactor from "./reactor.js";
+import TodoStore from "./TodoStore.js";
+
+reactor.registerStores({
+  'todos': TodoStore
+})
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h1>Setup getters - getters.js</h1>
+				<pre>
+					<code data-trim class="javascript">
+export default { 
+    todos: ["todos"]
+ };
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h1>Wait, what is a getter?</h1>
+				<p>
+					Expressions that are evaluated to pull data from stores.
+					Components to not access stores directly, they evaluate getters
+					to access the data. Use getters to transform the data or filter
+					so that you don't have to do it on components.
+				</p>
 			</section>			
+
+
 
 		</div>
 	</div>
